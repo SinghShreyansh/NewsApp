@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/ChatsApp/app/src/main/res/drawable-v24/bb_receiver.xml" value="0.2526041666666667" />
+        <entry key="..\:/ChatsApp/app/src/main/res/drawable-v24/bb_sender.xml" value="0.2526041666666667" />
+        <entry key="..\:/ChatsApp/app/src/main/res/drawable/black_background.xml" value="0.2526041666666667" />
+        <entry key="..\:/ChatsApp/app/src/main/res/drawable/bottom.xml" value="0.2526041666666667" />
+        <entry key="..\:/ChatsApp/app/src/main/res/drawable/bottom_bg.xml" value="0.2526041666666667" />
+        <entry key="..\:/ChatsApp/app/src/main/res/drawable/circle_green.xml" value="0.2526041666666667" />
+        <entry key="..\:/ChatsApp/app/src/main/res/drawable/demo_bg.xml" value="0.2526041666666667" />
+        <entry key="..\:/ChatsApp/app/src/main/res/drawable/gradient.xml" value="0.2526041666666667" />
+        <entry key="..\:/ChatsApp/app/src/main/res/drawable/textbox_outline.xml" value="0.2526041666666667" />
+        <entry key="..\:/ChatsApp/app/src/main/res/layout/activity_chat.xml" value="0.25" />
+        <entry key="..\:/ChatsApp/app/src/main/res/layout/activity_detailed.xml" value="0.1" />
+        <entry key="..\:/ChatsApp/app/src/main/res/layout/activity_details.xml" value="0.23645833333333333" />
+        <entry key="..\:/ChatsApp/app/src/main/res/layout/activity_group_chat.xml" value="0.23645833333333333" />
+        <entry key="..\:/ChatsApp/app/src/main/res/layout/activity_login.xml" value="0.264" />
+        <entry key="..\:/ChatsApp/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/ChatsApp/app/src/main/res/layout/activity_new_main.xml" value="0.2" />
+        <entry key="..\:/ChatsApp/app/src/main/res/layout/activity_news_main.xml" value="0.23645833333333333" />
+        <entry key="..\:/ChatsApp/app/src/main/res/layout/activity_otpactivity.xml" value="0.264" />
+        <entry key="..\:/ChatsApp/app/src/main/res/layout/activity_profile_setup.xml" value="0.2" />
+        <entry key="..\:/ChatsApp/app/src/main/res/layout/demo_layout.xml" value="0.264" />
+        <entry key="..\:/ChatsApp/app/src/main/res/layout/headline_list_items.xml" value="0.23645833333333333" />
+        <entry key="..\:/ChatsApp/app/src/main/res/layout/item_layout.xml" value="0.23645833333333333" />
+        <entry key="..\:/ChatsApp/app/src/main/res/layout/itemreceive_group.xml" value="0.264" />
+        <entry key="..\:/ChatsApp/app/src/main/res/layout/itemsend_group.xml" value="0.176" />
+        <entry key="..\:/ChatsApp/app/src/main/res/layout/raw_conversation.xml" value="0.264" />
+        <entry key="..\:/ChatsApp/app/src/main/res/layout/sample_receiver.xml" value="0.264" />
+        <entry key="..\:/ChatsApp/app/src/main/res/layout/sample_sender.xml" value="0.4" />
+        <entry key="..\:/ChatsApp/app/src/main/res/layout/text_msg.xml" value="0.23645833333333333" />
+        <entry key="..\:/ChatsApp/app/src/main/res/menu/menu.xml" value="0.23645833333333333" />
+        <entry key="..\:/ChatsApp/app/src/main/res/menu/topmenu.xml" value="0.23645833333333333" />
+        <entry key="..\:/ChatsApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2526041666666667" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "125037118583",
+    "project_id": "college-chatsapp",
+    "storage_bucket": "college-chatsapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:125037118583:android:60ff56c146a9ed293a7272",
+        "android_client_info": {
+          "package_name": "com.example.chatsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "125037118583-4bud8eq35esvgmqokq6otimpfa6kn98r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCabYNi9vPRVVMKsFnKuCm_l3zu-4hEAE0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "125037118583-4bud8eq35esvgmqokq6otimpfa6kn98r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

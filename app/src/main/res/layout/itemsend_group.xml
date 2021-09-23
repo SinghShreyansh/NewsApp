@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/bb_sender"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="10dp"
+            android:textColor="#F6F3F3"
+            android:textSize="10sp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/view3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#038A08" />
+
+        <ImageView
+            android:id="@+id/imageTxt"
+            android:layout_width="220dp"
+            android:layout_height="220dp"
+            android:layout_gravity="center|left"
+
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="5dp"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_avatar_icon" />
+
+        <TextView
+            android:id="@+id/senderText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="3dp"
+            android:inputType="textLongMessage|textMultiLine"
+            android:maxWidth="225dp"
+            android:minWidth="80dp"
+            android:paddingRight="20dp"
+            android:text="hi"
+            android:textColor="#0C0C0C"
+
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <TextView
+            android:id="@+id/senderTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="3dp"
+            android:layout_marginBottom="2dp"
+            android:paddingLeft="30dp"
+            android:text="12:00pm"
+            android:textSize="10sp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

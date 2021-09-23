@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">NewsApp</string>
+    <string name="type_a_message">Type a message</string>
+    <string name="api_key">5e1392e4a78241adbf27393420e62ec2</string>
+</resources>
