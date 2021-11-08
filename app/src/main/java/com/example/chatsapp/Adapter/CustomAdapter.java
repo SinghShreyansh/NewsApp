@@ -20,17 +20,19 @@ import com.example.chatsapp.R;
 import java.util.List;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomViewHolder> {
-
+    // Declaring variables
     Context context;
     List<NewsHeadlines> headlines;
     SelectListener listener;
 
+    // setting constructor
     public CustomAdapter(Context context, List<NewsHeadlines> headlines,SelectListener listener) {
         this.context = context;
         this.headlines = headlines;
         this.listener=listener;
     }
 
+    // inflating raw_conversation layout and passing to UsersViewHolder class to set binding
     @NonNull
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -38,17 +40,23 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomViewHolder> {
 
         return new CustomViewHolder(view);
     }
-
+    // Once you have access of every element through binding ,
+    // you can access it and can set according to you
+    // this will create every element of NewsMainActivity
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
+        // setting title
         holder.text_title.setText(headlines.get(position).getTitle());
+        // text source name
         holder.text_source.setText(headlines.get(position).getSource().getName());
+        // setting image
         if (headlines.get(position).getUrlToImage()!= null){
             Glide.with(context).load(headlines.get(position).getUrlToImage())
                     .into(holder.img_headline);
         }
 
+        // setting onClick on every item to pass intent to DetailNewsActivity
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,13 +66,14 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomViewHolder> {
 
 
     }
-
+    // to set the count of item to which adapter will work
     @Override
     public int getItemCount() {
         return headlines.size();
     }
 }
 
+// setting Viewholder which will be responsible for binding
 class CustomViewHolder extends RecyclerView.ViewHolder{
 
     TextView text_title, text_source;

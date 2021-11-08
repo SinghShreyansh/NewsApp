@@ -35,7 +35,8 @@ public class GroupMessageAdapter extends RecyclerView.Adapter {
         this.context = context;
         this.messages = messages;
     }
-
+    // inflating raw_conversation layout and passing
+    // to respective ViewHolder class to set binding
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -49,6 +50,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter {
 
     }
 
+    // method which will return view type
     @Override
     public int getItemViewType(int position) {
         Message message= messages.get(position);
@@ -63,6 +65,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Message message = messages.get(position);
+        // if msg is by sender then setting msg with help of SenderViewHolder
         if (holder.getClass() == SenderViewHolder.class){
             SenderViewHolder viewHolder = (SenderViewHolder)holder;
             FirebaseDatabase.getInstance().getReference()
@@ -72,6 +75,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if (snapshot.exists()){
                                 Users user = snapshot.getValue((Users.class));
+                                // Setting sender name
                                 viewHolder.binding.name.setText("@"+user.getName());
                             }
                         }
@@ -81,6 +85,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter {
 
                         }
                     });
+            // if msg is in img form then setting visibility of text and img
             if (message.getMessage().equals("")){
                 viewHolder.binding.senderText.setVisibility(View.GONE);
                 viewHolder.binding.imageTxt.setVisibility(View.VISIBLE);
@@ -98,6 +103,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter {
 
 
         } else{
+            // if msg is received then setting msg with help of ReceiverViewHolder
             ReceiverViewHolder viewHolder = (ReceiverViewHolder)holder;
             FirebaseDatabase.getInstance().getReference()
                     .child("users").child(message.getSenderID())
@@ -131,12 +137,13 @@ public class GroupMessageAdapter extends RecyclerView.Adapter {
         }
 
     }
-
+    // to set the count of item to which adapter will work
     @Override
     public int getItemCount() {
         return messages.size();
     }
 
+    // binding with ItemsendGroup xml
     public class SenderViewHolder extends RecyclerView.ViewHolder {
        ItemsendGroupBinding binding;
        public SenderViewHolder(@NonNull View itemView) {
@@ -144,6 +151,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter {
            binding=ItemsendGroupBinding.bind(itemView);
        }
    }
+    // binding with ItemreceiveGroup xml
    public class ReceiverViewHolder extends RecyclerView.ViewHolder {
        ItemreceiveGroupBinding binding;
        public ReceiverViewHolder(@NonNull View itemView) {

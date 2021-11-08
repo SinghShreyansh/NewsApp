@@ -36,6 +36,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class GroupChatActivity extends AppCompatActivity {
+    // Declaring variables
     ActivityGroupChatBinding binding;
     GroupMessageAdapter adapter;
     ArrayList<Message> messages;
@@ -52,25 +53,31 @@ public class GroupChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding= ActivityGroupChatBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        // To set actionbar title
         getSupportActionBar().setTitle("Group Chat");
+        // To show title on action bar
         getSupportActionBar().setDisplayShowTitleEnabled(true);
+        // To show back arrow on left of toolbar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+       // Getting Your own Uid(sender id) from firebase auth
         senderID= FirebaseAuth.getInstance().getUid();
-
+        // getting instances
         database=FirebaseDatabase.getInstance();
         storage=FirebaseStorage.getInstance();
+        // code for dialog box
         dialog= new ProgressDialog(this);
         dialog.setMessage("Uploading Image ...");
         dialog.setCancelable(false);
-
+        // creating new arraylist of message class
         messages = new ArrayList<>();
+        // sending arraylist of message class to message adapter
         adapter=new GroupMessageAdapter(this,messages);
+        // Activating recyclerview to show msg on this page with the help of msg adapter
         binding.recyclerview.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerview.setAdapter(adapter);
 
+        // Taking all the message data of group chat from database to msg typed arraylist
         database.getReference().child("public")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -88,23 +95,27 @@ public class GroupChatActivity extends AppCompatActivity {
 
                     }
                 });
-
+        // Onclick listener on send button
         binding.send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // taking typed msg in messageTxt variable
                 String messageTxt = binding.etMsg.getText().toString();
+                // reseting typed msg to ""
                 binding.etMsg.setText("");
+                // Creating object of date class
                 Date date =new Date();
-
+                // creating object of msg type and setting all values
                 Message message= new Message(messageTxt,senderID,date.getTime());
-
+                // saving current msg details to database of group chat
                 database.getReference().child("public")
                         .push()
                         .setValue(message);
 
             }
         });
-
+        // onClick listener on attach btm
+        //Passing intent to file which content images in device
         binding.attach.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,28 +127,37 @@ public class GroupChatActivity extends AppCompatActivity {
         });
 
     }
-
+    // Creating onActivityResult to save selected img to firebase storage
+    // and showing in group chat activity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        // Checking request code
         if (requestCode==35 || requestCode==125){
+            // Checking any img is there in device file or not
             if (data!= null){
+                // checking any img is selected or not
                 if (data.getData()!=null){
-
+                    // Taking selected img url to ChoosenImg variable which is of Uri type
                     Uri ChoosenImg = data.getData();
-
+                    // Creating calender object and taking instance
                     Calendar calendar= Calendar.getInstance();
+                    // Creating node in firebase storage with help of timestamp
                     StorageReference storageReference= storage.getReference().child("chats").child(calendar.getTimeInMillis()+ "");
+                    // Showing dialog box showing uploading img...
                     dialog.show();
+                    // adding Complete listener to check img is stored in storage
                     storageReference.putFile(ChoosenImg).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                             dialog.dismiss();
                             if (task.isSuccessful()){
+                                // Once image is stored in storage downloading img url
                                 storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess(Uri uri) {
+                                        // once url is got , store in Imgpath variable and
+                                        // setting all things as text is send
                                         String Imgpath = uri.toString();
                                         binding.etMsg.setText("");
                                         String messageTxt = binding.etMsg.getText().toString();
@@ -200,7 +220,7 @@ public class GroupChatActivity extends AppCompatActivity {
     }
 
 
-
+  // To go to back page when clicked on toolbar back arrow
     @Override
     public boolean onSupportNavigateUp() {
         finish();

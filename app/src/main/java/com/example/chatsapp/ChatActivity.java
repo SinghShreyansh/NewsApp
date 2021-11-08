@@ -48,6 +48,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ChatActivity extends AppCompatActivity {
+    // Declaring variables
 ActivityChatBinding binding;
 MessageAdapter adapter;
 ArrayList<Message> messages;
@@ -62,48 +63,55 @@ String senderID,receiverID;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         binding=ActivityChatBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        // Taking instances
         database=FirebaseDatabase.getInstance();
         storage=FirebaseStorage.getInstance();
+        // Creating dialog box
         dialog= new ProgressDialog(this);
         dialog.setMessage("Uploading Image ...");
         dialog.setCancelable(false);
 
-
+        // Taking intent which send by main page
         String name = getIntent().getStringExtra("name");
         String ProfileImg = getIntent().getStringExtra("image");
         String token =getIntent().getStringExtra("token");
         receiverID = getIntent().getStringExtra("uid");
+        // taking  Uid from firebase
         senderID = FirebaseAuth.getInstance().getUid();
-
+        // creatng senderRoom and recieverRoom
         senderRoom =senderID +receiverID;
         receiverRoom= receiverID + senderID;
-
+        // creating new arraylist of msg class
         messages = new ArrayList<>();
+        // setting adapter and recycler view
         adapter = new MessageAdapter(this,messages,senderRoom,receiverRoom);
         binding.recyclerview.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerview.setAdapter(adapter);
 
 
-
+          // setting toolbar which is created in xml
             setSupportActionBar(binding.toolbar);
 
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         // getSupportActionBar().setTitle(name);
        // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+          // Using glide library to load image online
            Glide.with(ChatActivity.this).load(ProfileImg).placeholder(R.drawable.ic_avatar_icon).into(binding.image);
+           // setting  name of user
            binding.name.setText(name);
+           // onClick listener on back arrow
            binding.backbtm.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View view) {
                    finish();
                }
            });
-
+           // getting data from database that receiver is offline or online
            database.getReference().child("presence").child(receiverID).addValueEventListener(new ValueEventListener() {
                @Override
                public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -126,8 +134,7 @@ String senderID,receiverID;
            });
 
 
-
-
+        // Taking  data of message from database into message arraylist
         database.getReference().child("chats").child(senderRoom).child("messages")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -147,19 +154,22 @@ String senderID,receiverID;
                 });
 
 
-
+        // onClick Listener on send btn
         binding.send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // taking typed msg int messageTxt var
                 String messageTxt = binding.etMsg.getText().toString();
+                // reseting "" in edittext
                 binding.etMsg.setText("");
+                // taking date object
                 Date date =new Date();
-
+                // creating new msg object with parameterized constructor
                 Message message= new Message(messageTxt,senderID,date.getTime());
 
                 String randomKey = database.getReference().push().getKey();
 
-
+                // saving this new msg to database of users senderRoom and receiverRoom
                 database.getReference().child("chats").child(senderRoom)
                         .child("messages")
                         .child(randomKey)
@@ -176,10 +186,11 @@ String senderID,receiverID;
 
                             }
                         });
+                        // creating hashmap object to store last msg and time
                         HashMap<String,Object> lastMsgObj = new HashMap<>();
                         lastMsgObj.put("lastMsg",message.getMessage());
                         lastMsgObj.put("lastMsgTime",date.getTime());
-
+                        // saving this map object to database
                         database.getReference().child("chats").child(senderRoom).updateChildren(lastMsgObj);
                         database.getReference().child("chats").child(receiverRoom).updateChildren(lastMsgObj);
                     }
@@ -187,6 +198,7 @@ String senderID,receiverID;
             }
         });
 
+        //onClick Listener on attach btn
         binding.attach.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -254,6 +266,7 @@ String senderID,receiverID;
         }
     }
 
+    // Code to save selected img to firebase storage and database
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -327,7 +340,7 @@ String senderID,receiverID;
 
 
 
-
+       // Code to save data in firebase that user is typing or not
         final Handler handler = new Handler();
         binding.etMsg.addTextChangedListener(new TextWatcher() {
             @Override
@@ -355,6 +368,8 @@ String senderID,receiverID;
             };
         });
     }
+
+    // tried to get image from camera but not working
 
 //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -422,39 +437,7 @@ String senderID,receiverID;
 //            }
 //        }
 //
-//
-//
-//
-//
-//
-//
-//        final Handler handler = new Handler();
-//        binding.etMsg.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//                database.getReference().child("presence").child(FirebaseAuth.getInstance().getUid()).setValue("Typing...");
-//                handler.removeCallbacksAndMessages(null);
-//                handler.postDelayed(usersStoppedTyping,1000);
-//
-//            }
-//            Runnable usersStoppedTyping = new Runnable() {
-//                @Override
-//                public void run() {
-//                    database.getReference().child("presence").child(senderID).setValue("Online");
-//                }
-//            };
-//        });
-//    }
+
 
     @Override
     protected void onResume() {

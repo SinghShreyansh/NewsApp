@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class MessageAdapter extends RecyclerView.Adapter {
+    // declaring  variables
     Context context;
     ArrayList<Message> messages;
     String senderRoom , receiverRoom;
@@ -39,6 +40,7 @@ public class MessageAdapter extends RecyclerView.Adapter {
     final int ITEM_SENT=1;
     final int ITEM_RECEIVE=2;
 
+    // setting constructor
     public MessageAdapter(Context context, ArrayList<Message> messages,String senderRoom,String receiverRoom) {
         this.context = context;
         this.messages = messages;
@@ -46,6 +48,8 @@ public class MessageAdapter extends RecyclerView.Adapter {
         this.receiverRoom=receiverRoom;
     }
 
+    // inflating raw_conversation layout and
+    // passing to respective ViewHolder class to set binding
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -58,7 +62,7 @@ public class MessageAdapter extends RecyclerView.Adapter {
         }
 
     }
-
+    // method which will return view type
     @Override
     public int getItemViewType(int position) {
         Message message= messages.get(position);
@@ -74,36 +78,13 @@ public class MessageAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Message message = messages.get(position);
 
+        // checking class of msg to set the content
+        // according to msg type(receiver msg or sender msg)
         if (holder.getClass() == SenderViewHolder.class){
 
             SenderViewHolder viewHolder = (SenderViewHolder)holder;
 
-           // Delete chat method
-           //            viewHolder.binding.msgLayout.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//
-//                   // showing delete msg confirm dialog
-//                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//                    builder.setTitle("Delete");
-//                    builder.setMessage("Are you sure to delete this message /");
-//                    builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialogInterface, int i) {
-//                            deleteMessage(position);
-//                        }
-//                    });
-//                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialogInterface, int i) {
-//                            dialogInterface.dismiss();
-//                        }
-//                    });
-//                    builder.create().show();
-//
-//                }
-//            });  //  --
-
+            // if msg is in img form then setting visibility of text and img
             if (message.getMessage().equals("")){
                 viewHolder.binding.senderText.setVisibility(View.GONE);
                 viewHolder.binding.imageTxt.setVisibility(View.VISIBLE);
@@ -111,6 +92,7 @@ public class MessageAdapter extends RecyclerView.Adapter {
                 Glide.with(context).load(message.getImageUrl())
                        .into(viewHolder.binding.imageTxt);
             } else{
+                // if it is text
                 viewHolder.binding.senderText.setVisibility(View.VISIBLE);
                 viewHolder.binding.imageTxt.setVisibility(View.GONE);
                 viewHolder.binding.senderText.setText(message.getMessage());
@@ -121,14 +103,18 @@ public class MessageAdapter extends RecyclerView.Adapter {
 
         }
         else{
+            // checking class of msg to set the content
+            // according to msg type(receiver msg or sender msg)
             ReceiverViewHolder viewHolder = (ReceiverViewHolder)holder;
             if (message.getMessage().equals("")){
+                // if msg is in img form then setting visibility of text and img
                 viewHolder.binding.imageTxt.setVisibility(View.VISIBLE);
                 viewHolder.binding.receiverText.setVisibility(View.GONE);
                 Glide.with(context).load(message.getImageUrl())
                         .into(viewHolder.binding.imageTxt);
             }
             else{
+                // if it is text
                 viewHolder.binding.receiverText.setVisibility(View.VISIBLE);
                 viewHolder.binding.imageTxt.setVisibility(View.GONE);
                 viewHolder.binding.receiverText.setText(message.getMessage());
@@ -139,43 +125,14 @@ public class MessageAdapter extends RecyclerView.Adapter {
 
 
     }
-//Delete method
-//    private void deleteMessage(int position) {
-//
-//
-//        String senderId= FirebaseAuth.getInstance().getUid();
-//        Long msgTimeStamp =  messages.get(position).getTimestamp();
-//        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("chats").child("senderRoom");
-//        Query query = dbRef.orderByChild("timestamp").equalTo(msgTimeStamp);
-//        query.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for (DataSnapshot snapshot1:snapshot.getChildren()){
-//                    if (snapshot1.child("senderID").getValue().equals(senderId)) {
-//                        //1.)Remove the message from chats
-//                       // snapshot1.getRef().removeValue();
-//                        //2.)Set the value of message from chats
-//                        HashMap<String, Object> map = new HashMap<>();
-//                        map.put("message", "This message was deleted ...");
-//                        snapshot1.getRef().updateChildren(map);
-//                    }else {
-//                        Toast.makeText(context,"You can delete only your message...",Toast.LENGTH_LONG).show();
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//    }
 
+    // to set the count of item to which adapter will work
     @Override
     public int getItemCount() {
         return messages.size();
     }
 
+    // binding with SampleSender xml
     public class SenderViewHolder extends RecyclerView.ViewHolder {
        SampleSenderBinding binding;
        public SenderViewHolder(@NonNull View itemView) {
@@ -183,6 +140,7 @@ public class MessageAdapter extends RecyclerView.Adapter {
            binding=SampleSenderBinding.bind(itemView);
        }
    }
+    // binding with SampleReceiver xml
    public class ReceiverViewHolder extends RecyclerView.ViewHolder {
        SampleReceiverBinding binding;
        public ReceiverViewHolder(@NonNull View itemView) {

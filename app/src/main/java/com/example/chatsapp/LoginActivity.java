@@ -21,21 +21,27 @@ FirebaseAuth auth;
         binding=ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         auth= FirebaseAuth.getInstance();
+        // To check if user is already login in then take the user to main page
         if (auth.getCurrentUser()!=null){
             Intent intent=new Intent(LoginActivity.this, NewsMainActivity.class);
             startActivity(intent);
             finish();
         }
+        //To hide above toolbar
         getSupportActionBar().hide();
+        //To open numerical keypad when user click on edittext box
         binding.etMobNum.requestFocus();
 
 
-
+        //to set a click listener on continue button
         binding.btnConti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Taking entered mobile number and converting to string
                 String number = binding.etMobNum.getText().toString();
+                //Passing intent to go on OTP verification page
                 Intent intent = new Intent(LoginActivity.this,OTPActivity.class);
+                //Passing mobile number from this page to otp verification page to show on UI
                 intent.putExtra("mobNum",number);
                 startActivity(intent);
             }

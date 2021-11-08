@@ -12,7 +12,7 @@ import com.example.chatsapp.R;
 import com.squareup.picasso.Picasso;
 
 public class DetailsActivity extends AppCompatActivity {
-
+// declaring variables
     NewsHeadlines headlines;
     TextView txt_title,txt_author,txt_time,txt_detail,txt_content;
     ImageView img_news;
@@ -22,6 +22,7 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
+       // getting all element by id
         txt_title=findViewById(R.id.text_detailed_title);
         txt_detail=findViewById(R.id.text_detail_detail);
         txt_author=findViewById(R.id.text_detail_author);
@@ -32,6 +33,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         headlines = (NewsHeadlines) getIntent().getSerializableExtra("data");
 
+        // setting all attributes of newsItem
         txt_title.setText(headlines.getTitle());
         txt_author.setText(headlines.getAuthor());
         txt_time.setText(headlines.getPublishedAt());

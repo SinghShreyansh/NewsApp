@@ -36,14 +36,17 @@ ProgressDialog dialog;
         setContentView(binding.getRoot());
         getSupportActionBar().hide();
 
+        // Getting instances
         database= FirebaseDatabase.getInstance();
         auth=FirebaseAuth.getInstance();
         storage=FirebaseStorage.getInstance();
 
+        // Dialogue box
         dialog = new ProgressDialog(this);
         dialog.setMessage("Loading profile...");
         dialog.setCancelable(false);
-
+        // On click listener on Plus button
+        // to select image from gallery
         binding.ivPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,18 +56,24 @@ ProgressDialog dialog;
                 startActivityForResult(intent,35);
             }
         });
+        // On click listener on Continue button
         binding.btnConti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Taking typed text from edittext to name variable
                 String name = binding.etName.getText().toString();
+                //If user is not entered any text and clicking on continue btm
+                // then this will show error
                 if (name.isEmpty()){
                     binding.etName.setError("Please type a name");
                     return;
                 }
                 dialog.show();
-
+                // To add selected img to firebase Storage and show on UI and add userdata on database
                 if (uri!=null){
+                    // Taking reference from firebase storage to make one node with user ID to save img data
                     StorageReference reference=storage.getReference().child("Profiles").child(auth.getUid());
+                    // adding onComplete listener on img storage and getting image url from firebase
                     reference.putFile(uri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
@@ -79,6 +88,7 @@ ProgressDialog dialog;
                                         String imageUrl = uri.toString();
 
                                         Users user = new Users(uid,name,phone,imageUrl);
+                                        // Adding userdata to firebase database
                                         database.getReference().child("users")
                                                 .child(auth.getUid())
                                                 .setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -97,6 +107,7 @@ ProgressDialog dialog;
                     });
                 }
                 else{
+                    // Adding userdata to database if user not select any img
                     String uid= auth.getUid();
                     name = binding.etName.getText().toString();
                     String phone = auth.getCurrentUser().getPhoneNumber();
@@ -119,7 +130,7 @@ ProgressDialog dialog;
         });
 
     }
-
+    // onActivityResult to get image url
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

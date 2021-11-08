@@ -17,17 +17,20 @@ import retrofit2.http.Query;
 public class RequestManager {
     Context context;
 
+    // retrofit file is helping to make request from server and converting it to json
     Retrofit retrofit= new Retrofit.Builder()
             .baseUrl("https://newsapi.org/v2/")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 
+    // function used to make api request and storing the result
     public void getNewsHeadlines(OnFetchDataListener listener,String category,String query){
 
         CallNewsApi callNewsApi = retrofit.create(CallNewsApi.class);
         Call<NewsApiResponse> call  = callNewsApi.callHeadlines("in",category,query,context.getString(R.string.api_key));
 
         try{
+            // setting a callback function  for waiting to get result from server
             call.enqueue(new Callback<NewsApiResponse>() {
                 @Override
                 public void onResponse(Call<NewsApiResponse> call, Response<NewsApiResponse> response) {
@@ -49,11 +52,12 @@ public class RequestManager {
             e.printStackTrace();
         }
     }
-
+    // request manager will set the context , that from where the call is made
     public RequestManager(Context context) {
         this.context = context;
     }
 
+    // interface used to make a request
     public  interface CallNewsApi{
         @GET("top-headlines")
         Call<NewsApiResponse> callHeadlines(

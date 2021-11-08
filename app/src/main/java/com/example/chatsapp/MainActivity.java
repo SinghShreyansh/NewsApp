@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
+    // declaring variables
   ActivityMainBinding binding;
   FirebaseDatabase database;
   ArrayList<Users> users;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         database=FirebaseDatabase.getInstance();
+        // Taking arraylist of user class to store user msg details
         users=new ArrayList<>();
 
         FirebaseMessaging.getInstance()
@@ -51,24 +53,26 @@ public class MainActivity extends AppCompatActivity {
                                 .updateChildren(map);
                     }
                 });
-
+        // Passing arraylist of data and context to Adapter to show all required detail
         usersAdapter = new MainChatAdapter(this,users);
        // binding.RecyclerView.setLayoutManager(new LinearLayoutManager());   --> Already set in xml
         binding.RecyclerView.setAdapter(usersAdapter);
-
+        // To shimmer effect whose library is added to gradle dependencies
         binding.RecyclerView.showShimmerAdapter();
-
+        // Taking all the data from database and adding to arraylist and giving to userAdapter
         database.getReference().child("users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // Clearing previous data in arraylist
                 users.clear();
-
+                // Adding data from database node of current user to arraylist
                 for (DataSnapshot snapshot1: snapshot.getChildren()){
                     Users user = snapshot1.getValue(Users.class);
                     if (!user.getUid().equals(FirebaseAuth.getInstance().getUid())){
                     users.add(user);
                     }
                 }
+                // Once data receiving from database is completed , remove shimmer effect
                 binding.RecyclerView.hideShimmerAdapter();
                 usersAdapter.notifyDataSetChanged();
 
@@ -80,21 +84,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
+    //When MainActivity is resume or user is on this page
     @Override
     protected void onResume() {
         super.onResume();
         String currentId= FirebaseAuth.getInstance().getUid();
         database.getReference().child("presence").child(currentId).setValue("Online");
     }
-
+    //When app is open in mobile but user is not on that app
     @Override
     protected void onPause() {
         super.onPause();
         String currentId= FirebaseAuth.getInstance().getUid();
        database.getReference().child("presence").child(currentId).setValue("Offline");
     }
-
+    // Created menu with switch case to choose the page
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
@@ -118,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // Taking menu from xml file to java show that it is shown
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.topmenu,menu);

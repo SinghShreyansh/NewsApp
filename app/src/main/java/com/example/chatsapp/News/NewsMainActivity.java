@@ -27,6 +27,7 @@ import com.example.chatsapp.R;
 import java.util.List;
 
 public class NewsMainActivity extends AppCompatActivity implements SelectListener, View.OnClickListener{
+    // Declaring variables
     RecyclerView recyclerView;
     CustomAdapter adapter;
     ProgressDialog dialog;
@@ -38,8 +39,10 @@ public class NewsMainActivity extends AppCompatActivity implements SelectListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_main);
 
+        // getting search bar
         searchView=findViewById(R.id.search_view);
 
+        // setting search functionality on query entered by user
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -60,6 +63,7 @@ public class NewsMainActivity extends AppCompatActivity implements SelectListene
         dialog.setTitle("Fetching news articles...");
         dialog.show();
 
+        // getting all the category btn by there id with help of View.onclickListener
         b1=findViewById(R.id.btn_1);
         b1.setOnClickListener(this);
         b2=findViewById(R.id.btn_2);
@@ -75,10 +79,12 @@ public class NewsMainActivity extends AppCompatActivity implements SelectListene
         b7=findViewById(R.id.btn_7);
         b7.setOnClickListener(this);
 
+        // requesting requestManager on the basis of category selected by user
         RequestManager manager= new RequestManager(this);
         manager.getNewsHeadlines(listener,"general",null);
     }
 
+    // creating OnFetchDataListener object  with two abstract method
     private  final OnFetchDataListener<NewsApiResponse> listener= new OnFetchDataListener<NewsApiResponse>() {
         @Override
         public void onFetchData(List<NewsHeadlines> list, String message) {
@@ -98,6 +104,8 @@ public class NewsMainActivity extends AppCompatActivity implements SelectListene
         }
     };
 
+    // Function which will show the news articles received from server and stored in list array
+    // by setting adapter and recyclerview
     private void showNews(List<NewsHeadlines> list) {
         recyclerView = findViewById(R.id.recycler_mainNew);
         recyclerView.setHasFixedSize(true);
@@ -106,6 +114,7 @@ public class NewsMainActivity extends AppCompatActivity implements SelectListene
         recyclerView.setAdapter(adapter);
     }
 
+    // passing intent to DetailsActivity with news data of clicked item
     @Override
     public void OnNewsClicked(NewsHeadlines headlines) {
         startActivity(new Intent(NewsMainActivity.this,DetailsActivity.class)
@@ -113,6 +122,7 @@ public class NewsMainActivity extends AppCompatActivity implements SelectListene
 
     }
 
+    // onclick listener on category btn
     @Override
     public void onClick(View view) {
         Button button =(Button) view ;
@@ -124,6 +134,7 @@ public class NewsMainActivity extends AppCompatActivity implements SelectListene
         manager.getNewsHeadlines(listener,category,null);
     }
 
+    // setting menu intent
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
@@ -145,6 +156,7 @@ public class NewsMainActivity extends AppCompatActivity implements SelectListene
         return super.onOptionsItemSelected(item);
     }
 
+    // inflating menu bar from xml file
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.topmenu,menu);

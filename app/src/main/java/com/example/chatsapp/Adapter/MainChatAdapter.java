@@ -25,16 +25,19 @@ import java.util.ArrayList;
 
 public class MainChatAdapter extends RecyclerView.Adapter<MainChatAdapter.UsersViewHolder> {
 
+    // Declaring variables
     Context context;
     ArrayList<Users> users;
 
 
+    // setting construction
     public MainChatAdapter(Context context,ArrayList<Users> users){
         this.context=context;
         this.users=users;
 
     }
 
+    // inflating raw_conversation layout and passing to UsersViewHolder class to set binding
     @NonNull
     @Override
     public UsersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -43,25 +46,34 @@ public class MainChatAdapter extends RecyclerView.Adapter<MainChatAdapter.UsersV
         return new UsersViewHolder(view);
     }
 
+    // Once you have access of every element through binding ,
+    // you can access it and can set according to you
+    // this will create every element of MainActivity
     @Override
     public void onBindViewHolder(@NonNull UsersViewHolder holder, int position) {
+        // getting position of users available in arraylist
+        // received from database(firebase database)
     Users user = users.get(position);
     String senderID = FirebaseAuth.getInstance().getUid();
 
     String senderRoom = senderID + user.getUid();
 
+    // getting all data of current user from senderRoom in database
         FirebaseDatabase.getInstance().getReference().child("chats")
                 .child(senderRoom)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()) {
+                            // getting and setting lastmsg
+
                             String lastMsg = snapshot.child("lastMsg").getValue(String.class);
                            // long time = snapshot.child("lastMsgTime").getValue(Long.class);
 
                             holder.binding.tvLastMsg.setText(lastMsg);
                            // holder.binding.tvMsgTime.setText((int) time);
                         }else {
+                            // in-case lastmsg is null
                             holder.binding.tvLastMsg.setText("Tap to chat");
                             holder.binding.tvMsgTime.setText("");
 
@@ -75,12 +87,16 @@ public class MainChatAdapter extends RecyclerView.Adapter<MainChatAdapter.UsersV
                     }
                 });
 
+        // setting users name
     holder.binding.tvUsername.setText(user.getName());
 
+    // setting users profile pic with help of glide
         Glide.with(context).load(user.getProfilePic())
                 .placeholder(R.drawable.ic_avatar_icon)
                 .into(holder.binding.imageView2);
 
+        // setting onClick on each user
+        // to pass user data to chatActivity and open it
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,11 +111,13 @@ public class MainChatAdapter extends RecyclerView.Adapter<MainChatAdapter.UsersV
         });
     }
 
+    // to set the count of item to which adapter will work
     @Override
     public int getItemCount() {
         return users.size();
     }
 
+    // setting Viewholder which will be responsible for binding
     public class UsersViewHolder extends RecyclerView.ViewHolder{
 
             RawConversationBinding binding;
